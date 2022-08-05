@@ -1,3 +1,4 @@
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'favourite_todos.dart';
 import 'location.dart';
@@ -116,14 +117,6 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
                 child: Row(
                   children: [
-                    // color wrapper
-                    // Expanded(
-                    //   flex: 1,
-                    //   child: Container(
-                    //     width: 10.0,
-                    //     color: Colors.blue,
-                    //     ),
-                    //   ),
 
                     //the main text wrapper starts
                     Expanded(
@@ -159,15 +152,14 @@ class _HomePageState extends State<HomePage> {
                               setState(() {
                                 todos.remove(todos[index]);
                               });
-                            } ,icon: const Icon(Icons.delete), color:Colors.redAccent,splashColor: Colors.grey,),
+                            } ,icon: const Icon(Icons.delete, size: 40), color:Colors.redAccent,splashColor: Colors.grey,),
 
-                            IconButton(onPressed: (){
-                              setState(() {
-                                favourites.add(todos[index]);
-                              });
-
-                            },icon: const Icon(Icons.favorite), color:Colors.white,),
-
+                            FavoriteButton(
+                              isFavorite: false,
+                              valueChanged: (isFavorite) {
+                                isFavorite ? favourites.add(todos[index]) : favourites.remove(todos[index]);
+                              },
+                            ),
                           ],
                         ),
                       )
