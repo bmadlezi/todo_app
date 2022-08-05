@@ -56,10 +56,29 @@ class _HomePageState extends State<HomePage> {
         ]
       ),
       body:  buildListView(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed:  showPopUpDialog,
-        child: const Icon(Icons.add),
-     )
+        onPressed: showPopUpDialog,
+        child: const  Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 4.0,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -80,7 +99,7 @@ class _HomePageState extends State<HomePage> {
         builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Add todo item'),
-          content: dialogContent(),
+          content: dialogContent(context),
         );
       }
     );
@@ -122,7 +141,7 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-  Widget dialogContent() {
+  Widget dialogContent(context) {
     return  Container(
         width: 260.0,
         height: 230.0,
@@ -146,7 +165,11 @@ class _HomePageState extends State<HomePage> {
             RaisedButton(
               onPressed: () {
                 setState((){
-                  return myControl.text.isEmpty? null: todos.add(myControl.text);
+                  //remove text after adding item
+                  //remove dialog after adding item
+                  myControl.text.isEmpty? null: todos.add(myControl.text);
+                  myControl.clear();
+                  Navigator.pop(context);
                 });
               },
               color: Colors.cyan,
