@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Todo App'),
         elevation: 0.0,
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.blue,
         centerTitle: true,
         actions: [
           IconButton(
@@ -111,33 +111,82 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) =>
             Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: Card(
-                  elevation: 5,
-                  shape: const Border(left: BorderSide(color: Colors.red)),
-                  color: Colors.indigo,
-                  child: ListTile(
-                    leading:
-                    IconButton(
-                        onPressed: (){},
-                        icon: const Icon(Icons.favorite),
-                        color: Colors.white70
+              child: Card(
+                elevation: 7,
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    // color wrapper
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: Container(
+                    //     width: 10.0,
+                    //     color: Colors.blue,
+                    //     ),
+                    //   ),
+
+                    //the main text wrapper starts
+                    Expanded(
+                      flex: 8,
+                      child:  Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              todos[index],
+                              style:  TextStyle(fontSize: 22, color: Colors.grey[900])
+
+                            ),
+
+                          ],
+                       )
+                      )
                     ),
-                    title: Text(getTodos(index), style: const TextStyle(color: Colors.white, fontSize: 20.0),),
-                    trailing:  IconButton(
-                        onPressed: (){
-                          setState(() {
-                            todos.remove(todos[index]);
-                          });
-                        },
-                        icon: const Icon(Icons.delete, color: Colors.white,)
-                    ),
-                  ),
+
+                    //Right icon buttons wrapper
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+
+                        color: Colors.blueAccent,
+                        height: 70,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(onPressed: (){
+                              setState(() {
+                                todos.remove(todos[index]);
+                              });
+                            } ,icon: const Icon(Icons.delete), color:Colors.redAccent,splashColor: Colors.grey,),
+
+                            IconButton(onPressed: (){
+                              setState(() {
+                                favourites.add(todos[index]);
+                              });
+
+                            },icon: const Icon(Icons.favorite), color:Colors.white,),
+
+                          ],
+                        ),
+                      )
+                    )
+                  ],
                 ),
               ),
             ),
       );
+
+  }
+
+  void deleteTodoItem(index){
+    setState(() {
+      todos.remove(todos[index]);
+    });
+  }
+
+  void addItemToFavorites(item){
 
   }
 
