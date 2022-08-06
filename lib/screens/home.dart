@@ -26,10 +26,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
+
   final myControl = TextEditingController();
   late List todos = [];
-  late List favourites = [];
+  late List<String> favourites = [];
 
   TodoItem item = TodoItem();
 
@@ -46,9 +46,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return Favourite(favouritesList: favourites);
-                  }
+                  builder: (context) => Favorites(favoritesList: favourites,)
                 )
               );
             },
@@ -142,22 +140,25 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       flex: 2,
                       child: Container(
-
                         color: Colors.blueAccent,
-                        height: 70,
+                        height:  70,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center
+                          ,
                           children: [
                             IconButton(onPressed: (){
                               setState(() {
                                 todos.remove(todos[index]);
+                                if(favourites.isNotEmpty){favourites.remove(favourites[index]);}
                               });
                             } ,icon: const Icon(Icons.delete, size: 40), color:Colors.redAccent,splashColor: Colors.grey,),
 
                             FavoriteButton(
                               isFavorite: false,
                               valueChanged: (isFavorite) {
-                                isFavorite ? favourites.add(todos[index]) : favourites.remove(todos[index]);
+                                setState(() {
+                                  isFavorite ? favourites.add(todos[index]) : favourites.remove(todos[index]);
+                                });
                               },
                             ),
                           ],
@@ -169,16 +170,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
       );
-
-  }
-
-  void deleteTodoItem(index){
-    setState(() {
-      todos.remove(todos[index]);
-    });
-  }
-
-  void addItemToFavorites(item){
 
   }
 
@@ -211,6 +202,7 @@ class _HomePageState extends State<HomePage> {
                   myControl.text.isEmpty? null: todos.add(myControl.text);
                   myControl.clear();
                   Navigator.pop(context);
+
                 });
               },
               color: Colors.cyan,
